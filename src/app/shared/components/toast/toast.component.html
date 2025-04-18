@@ -1,0 +1,15 @@
+<div class="absolute top-2 right-2">
+  @for(toast of toasts; track toast) {
+  <div hlmAlert [@toastAnimation] [variant]="toast.variant" class="mb-4">
+    @if(toast.icon) {
+      <hlm-icon hlmAlertIcon [name]="toast.icon" />
+    } @else {
+      <hlm-icon hlmAlertIcon [name]="toast.variant === 'success' ? 'lucideCircleCheck' : 'lucideCircleAlert'" />
+    }
+    <h4 hlmAlertTitle>{{ toast.title }}</h4>
+    <p hlmAlertDesc>
+      {{ toast.message }}
+    </p>
+  </div>
+  }
+</div>

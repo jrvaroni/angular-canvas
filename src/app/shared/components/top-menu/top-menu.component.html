@@ -1,0 +1,87 @@
+<hlm-menu-bar class="w-fill border-0">
+    <img src="./logo-icon.svg" class="inline-block h-full max-w-full transition-all duration-200 ease-soft-in-out max-h-8 dark:hidden" alt="logo" >
+    <!-- <button hlmMenuBarItem class="px-3 font-bold">Home</button>
+    <button hlmMenuBarItem class="px-3 font-medium">Doações</button>
+    <button hlmMenuBarItem [brnMenuTriggerFor]="chars" class="px-3 font-medium">Personagens</button>
+    <button hlmMenuBarItem [brnMenuTriggerFor]="rank" class="px-3 font-medium">Ranks</button>
+    <button hlmMenuBarItem [brnMenuTriggerFor]="account" class="px-3 font-medium">Conta</button> -->
+</hlm-menu-bar>
+
+<ng-template #chars>
+    <hlm-menu variant="menubar" class="w-48">
+        <hlm-menu-group>        
+            <button hlmMenuItem>
+                Ver Personagens
+                <hlm-menu-shortcut><hlm-icon size='sm' name="lucideUser" /></hlm-menu-shortcut>
+            </button>
+
+            <hlm-menu-separator />
+
+            <button hlmMenuItem [brnMenuTriggerFor]="reset">
+                Resetar
+                <hlm-menu-item-sub-indicator />
+                <ng-template #reset>
+                    <hlm-sub-menu>
+                        <button hlmMenuItem>
+                            Posição
+                            <hlm-menu-shortcut><hlm-icon size='sm' name="lucideMapPin" /></hlm-menu-shortcut>
+                        </button>
+                        <button hlmMenuItem>
+                            Aparencia
+                            <hlm-menu-shortcut><hlm-icon size='sm' name="lucideUserCog" /></hlm-menu-shortcut>
+                        </button>
+                        <button hlmMenuItem>
+                            Trocar Slot
+                            <hlm-menu-shortcut><hlm-icon size='sm' name="lucideBoxSelect" /></hlm-menu-shortcut>
+                        </button>
+                    </hlm-sub-menu>
+                </ng-template>
+            </button>
+
+        </hlm-menu-group>
+    </hlm-menu>
+</ng-template>
+
+<ng-template #rank>
+    <hlm-menu variant="menubar" class="w-48">
+        <hlm-menu-group>
+            <button inset hlmMenuItem>
+                Pvp
+                <hlm-menu-shortcut><hlm-icon size='sm' name="lucideSword" /></hlm-menu-shortcut>
+            </button>
+            <button inset hlmMenuItem>
+                Woe
+                <hlm-menu-shortcut><hlm-icon size='sm' name="lucideSwords" /></hlm-menu-shortcut>
+            </button>
+            <hlm-menu-separator />
+
+            <button inset hlmMenuItem disabled>
+                Caçador
+                <hlm-menu-shortcut><hlm-icon size='sm' name="lucideLocate" /></hlm-menu-shortcut>
+            </button>
+            <hlm-menu-separator />
+
+            <button inset hlmMenuItem>
+                Zeny
+                <hlm-menu-shortcut><hlm-icon size='sm' name="lucideDollarSign" /></hlm-menu-shortcut>
+            </button>
+            <button inset hlmMenuItem>
+                Guildas
+                <hlm-menu-shortcut><hlm-icon size='sm' name="lucideUsers" /></hlm-menu-shortcut>
+            </button>
+        </hlm-menu-group>
+    </hlm-menu>
+</ng-template>
+
+<ng-template #account>
+    <hlm-menu variant="menubar" class="w-48">
+        <hlm-menu-group>
+            <button inset hlmMenuItem>Detalhes</button>
+            <button inset hlmMenuItem>Resetar Senha</button>
+            <button inset hlmMenuItem>Trocar E-mail</button>
+            <button inset hlmMenuItem disabled>Trocar Gênero</button>
+            <hlm-menu-separator />
+            <button inset hlmMenuItem (click)="logout()">Sair</button>
+        </hlm-menu-group>
+    </hlm-menu>
+</ng-template>

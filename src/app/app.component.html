@@ -1,0 +1,37 @@
+<shared-toast></shared-toast>
+<hlm-alert-dialog>
+@if(loggedUser) {
+    <main class="main">
+    <ng-template #contextMenu>
+        <hlm-menu class="w-40">
+            <hlm-menu-group>
+                <button hlmMenuItem>Add to Library</button>
+                <hlm-menu-separator />
+    
+                <button hlmMenuItem>Play Next</button>
+                <button hlmMenuItem>Play Later</button>
+                <button hlmMenuItem>Create Station</button>
+                <hlm-menu-separator />
+    
+                <button hlmMenuItem>Like</button>
+                <button hlmMenuItem>Share</button>
+            </hlm-menu-group>
+        </hlm-menu>
+    </ng-template>
+    
+    <!-- <top-menu class="px-2 lg:px-4" /> -->
+    <div class="border-border bg-background border-t">
+        <div class="grid grid-cols-2 lg:grid-cols-5">
+            <side-menu />
+            <div class="col-span-3 lg:col-span-4">
+                <router-outlet />
+            </div>
+        </div>
+    </div>
+</main>
+} @else {
+    <main class="main">
+        <router-outlet />
+    </main>
+}
+</hlm-alert-dialog>

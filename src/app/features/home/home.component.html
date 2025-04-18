@@ -1,0 +1,132 @@
+<div class="h-full px-4 py-6 lg:px-8">
+    <hlm-tabs tab="details" class="w-full">
+        <header class="flex flex-col-reverse justify-between gap-y-10 align-baseline sm:flex-row">
+            <hlm-tabs-list class="inline-grid w-full grid-cols-2 sm:w-auto">
+                <button hlmTabsTrigger="details">Geral</button>
+                <button hlmTabsTrigger="podcast_tab">Personagens</button>
+            </hlm-tabs-list>
+            <a [routerLink]="['/tickets']" hlmBtn class="h-10 w-full sm:w-auto">
+                <hlm-icon size="sm" class="mr-2" name="lucideCirclePlus" />
+                Enviar Ticket
+            </a>
+        </header>
+
+        <div hlmTabsContent="details" class="w-full">
+            <div class="mt-6 space-y-1">
+                <!-- <h2 class="text-2xl font-semibold tracking-tight">{{ user.userid }}</h2> -->
+                <p class="text-muted-foreground text-sm">Dados da sua conta.</p>
+            </div>
+            <brn-separator hlmSeparator />
+
+            <hlm-table class="w-full min-w-[400px] mt-2">
+                  <!-- <hlm-trow>
+                    <hlm-td truncate class="font-medium w-52 bg-muted">Usuário</hlm-td>
+                    <hlm-td class="w-60">{{ user.userid }}</hlm-td>
+                    <hlm-td class="flex-1 bg-muted font-medium">ID da Conta</hlm-td>
+                    <hlm-td class="justify-end w-40">{{ user.account_id }}</hlm-td>
+                  </hlm-trow>
+
+                  <hlm-trow>
+                    <hlm-td truncate class="font-medium w-52 bg-muted">E-mail</hlm-td>
+                    <hlm-td class="w-60">{{ user.email }}</hlm-td>
+                    <hlm-td class="flex-1 bg-muted font-medium">Level do Grupo</hlm-td>
+                    <hlm-td class="justify-end w-40">{{ user.group_id }}</hlm-td>
+                  </hlm-trow>
+
+                  <hlm-trow>
+                    <hlm-td truncate class="font-medium w-52 bg-muted">Gênero</hlm-td>
+                    <hlm-td class="w-60">{{ user.sex | gender }}</hlm-td>
+                    <hlm-td class="flex-1 bg-muted font-medium">Personagens</hlm-td>
+                    <hlm-td class="justify-end w-40">{{ chars.length }}</hlm-td>
+                  </hlm-trow>
+
+                  <hlm-trow>
+                    <hlm-td truncate class="font-medium w-52 bg-muted">Contagem de Login</hlm-td>
+                    <hlm-td class="w-60">{{ user.logincount }}</hlm-td>
+                    <hlm-td class="flex-1 bg-muted font-medium">Balanço de Crédito</hlm-td>
+                    <hlm-td class="justify-end w-40">100</hlm-td>
+                  </hlm-trow>
+
+                  <hlm-trow>
+                    <hlm-td truncate class="font-medium w-52 bg-muted">Data de nascimento</hlm-td>
+                    <hlm-td class="w-60">{{ user.birthdate | date:'dd/MM/yyyy' }}</hlm-td>
+                    <hlm-td class="flex-1 bg-muted font-medium">Status da conta</hlm-td>
+                    <hlm-td class="justify-end w-40">{{user.state}}</hlm-td>
+                  </hlm-trow>
+                  
+                
+                <hlm-trow class="bg-muted/50 hover:bg-muted">
+                  <hlm-td truncate class="w-[200px] font-semibold">Último IP registrado	</hlm-td>
+                  <hlm-td class="w-100">{{ user.last_ip }}</hlm-td>
+                </hlm-trow> -->
+              </hlm-table>
+
+            <!-- <div class="mt-2">
+                <div class="mt-2 grid grid-cols-2 gap-4 pb-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
+                    @for (item of sectionData.listenNow; track item) {
+                        <figure class="space-y-4" [brnCtxMenuTriggerFor]="contextMenu">
+                            <picture class="group relative block w-full overflow-hidden rounded-md">
+
+                            </picture>
+                            <figcaption class="space-y-1 text-sm">
+                                <h3 class="font-medium leading-none">{{ item.title }}</h3>
+                                <p class="text-muted-foreground text-xs">{{ item.subtitle }}</p>
+                            </figcaption>
+                        </figure>
+                    }
+                </div>
+            </div> -->
+
+        </div>
+        <div hlmTabsContent="podcast_tab" class="w-full space-y-6">
+            <div class="mt-6 space-y-2">
+                <h2 class="text-2xl font-semibold tracking-tight">Personagens</h2>
+                <p class="text-muted-foreground text-sm">Todos seus personagens em NextRO</p>
+            </div>
+            <brn-separator hlmSeparator />
+
+            <div hlmCard class="flex min-h-[450px] flex-col justify-center p-6 align-middle">
+                <!-- <div class="text-center">
+                    <hlm-icon size="xl" name="lucidePodcast" class="text-muted-foreground" />
+                    <h2 class="mt-4 text-lg font-semibold">No episodes added</h2>
+                    <p class="text-muted-foreground mb-4 mt-2 text-sm">
+                        You have not added any podcasts. Add one below
+                    </p>
+                    <button hlmBtn class="h-8 text-xs">Add Podcast</button>
+                </div> -->
+
+                <!-- <app-teste></app-teste> -->
+
+                <hlm-table class="w-full min-w-[400px]">
+                    <hlm-caption>A list of your recent invoices.</hlm-caption>
+                    <hlm-trow>
+                      <hlm-th class="w-10">slot</hlm-th>
+                      <hlm-th class="w-60">Nome</hlm-th>
+                      <hlm-th class="w-40">Classe</hlm-th>
+                      <hlm-th class="w-40">Nível de Base</hlm-th>
+                      <hlm-th class="w-40">Nível de Job</hlm-th>
+                      <hlm-th class="w-40">Zeny</hlm-th>
+                      <hlm-th class="w-40">Status</hlm-th>
+                    </hlm-trow>
+                    @for (char of chars; track char.char_id) {
+                      <hlm-trow>
+                        <hlm-td truncate class="font-medium w-10">{{ char.char_num +1 }}</hlm-td>
+                        <hlm-td class="w-60">{{ char.name }}</hlm-td>
+                        <hlm-td class="w-40"><div hlmBadge class="w-[125px] text-center block">{{ char.class | jobName }}</div></hlm-td>
+                        <hlm-td class="w-40">{{ char.base_level }}</hlm-td>
+                        <hlm-td class="w-40">{{ char.job_level }}</hlm-td>
+                        <hlm-td class="w-40">{{ char.zeny | currency:'':'' }}</hlm-td>
+                        <hlm-td class="w-40"><span [ngClass]="char.online === 1 ? 'online' : 'offline'">{{ char.online | status }}</span></hlm-td>
+                      </hlm-trow>
+                    }
+                    <hlm-trow class="bg-muted/50 hover:bg-muted">
+                      <hlm-td truncate class="w-[100px] font-semibold">Total</hlm-td>
+                      <hlm-td class="w-40"></hlm-td>
+                      <hlm-td class="flex-1"></hlm-td>
+                      <hlm-td class="justify-end w-40">$2,500.00</hlm-td>
+                    </hlm-trow>
+                  </hlm-table>
+            </div>
+        </div>
+    </hlm-tabs>
+</div>

@@ -1,0 +1,69 @@
+<div class="h-full px-4 py-6 lg:px-8">
+  <header class="flex flex-col-reverse justify-between gap-y-10 align-baseline sm:flex-row">
+    <div class="space-y-2">
+      <h2 class="text-2xl font-semibold tracking-tight">Produtos</h2>
+      <p class="text-muted-foreground text-sm">Todos produtos cadastrados na plataforma</p>
+    </div>
+    <a [routerLink]="['/produtos/cadastro']" hlmBtn class="h-10 w-full sm:w-auto">
+        <hlm-icon size="sm" class="mr-2" name="lucideCirclePlus" />
+        Cadastrar
+    </a>
+  </header>
+
+  <div class="w-full space-y-6">
+      <brn-separator hlmSeparator />
+
+      <div hlmCard class="flex min-h-[450px] flex-col justify-center p-6 align-middle">
+
+          <hlm-table class="w-full md:min-w-[400px]">
+              <hlm-caption>
+                Total de {{ products.length > 1 ? products.length + ' produtos' : products.length + ' produto' }} listado{{ products.length > 1 ? 's' : '' }}
+              </hlm-caption>
+              <hlm-trow>
+                <hlm-th class="w-40 md:w-80 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">Nome</hlm-th>
+                <hlm-th class="w-20 md:w-40">Preço</hlm-th>
+                <hlm-th class="w-40">Quantidade</hlm-th>
+                <hlm-th class="flex justify-end"></hlm-th>
+              </hlm-trow>
+              @for (product of products; track product.id) {
+                <hlm-trow>
+                  <hlm-td scope="col" truncate class="font-medium w-40 md:w-80 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ product.name }}</hlm-td>
+                  <hlm-td class="w-20 md:w-40">{{ product.price | currencyBr }}</hlm-td>
+                  <hlm-td class="w-40">{{ product.qtd }}</hlm-td>
+                  <hlm-td class="flex-1 justify-end gap-2">
+                    <hlm-tooltip>
+                      <button hlmTooltipTrigger aria-describedby="editar" (click)="goTo(product)" hlmBtn size="icon" variant="outline"><hlm-icon size='sm' name="lucidePencil" /></button>
+                      <span *brnTooltipContent>Editar</span>
+                    </hlm-tooltip>
+                    <hlm-tooltip>
+                      <button brnAlertDialogTrigger aria-describedby="apagar" (click)="currentSelectedProduct = product" hlmTooltipTrigger hlmBtn size="icon" variant="outline"><hlm-icon size='sm' name="lucideTrash" /></button>
+                      <span *brnTooltipContent>Deletar</span>
+                    </hlm-tooltip>
+                  </hlm-td>
+                </hlm-trow>
+              }
+              <hlm-trow class="bg-muted/50 hover:bg-muted">
+                <hlm-td truncate class="w-[100px] font-semibold">Total</hlm-td>
+                <hlm-td class="w-40"></hlm-td>
+                <hlm-td class="flex-1"></hlm-td>
+                <hlm-td class="justify-end w-40">{{ prices | currencyBr }}</hlm-td>
+              </hlm-trow>
+            </hlm-table>
+      </div>
+  </div>
+</div>
+
+<hlm-alert-dialog-content *brnAlertDialogContent="let ctx">
+  <hlm-alert-dialog-header>
+    <h3 hlmAlertDialogTitle>Você tem certeza disto?</h3>
+    <p hlmAlertDialogDescription>
+      Está ação nao pode ser desfeita. Você vai excluir totalmente o produto {{ currentSelectedProduct?.name }}.
+    </p>
+  </hlm-alert-dialog-header>
+  <hlm-alert-dialog-footer>
+    <div class="flex justify-between gap-5">
+      <button (click)="ctx.close()">Cancelar</button>
+      <button hlmBtn variant="destructive" (click)="handlerDelete(ctx)">Excluir</button>
+    </div>
+  </hlm-alert-dialog-footer>
+</hlm-alert-dialog-content>
