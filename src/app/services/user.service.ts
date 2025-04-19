@@ -11,7 +11,7 @@ import { BaseService } from './base.service';
 export class UserService extends BaseService {
 
 	login(User: ILogin): Observable<ILogin> {
-		return this.post(`login`, User);
+		return this.post(`auth/login`, User);
 	}
 	
 	getUsers(): Observable<IUser[]> {

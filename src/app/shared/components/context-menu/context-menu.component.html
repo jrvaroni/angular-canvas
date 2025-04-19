@@ -1,0 +1,22 @@
+<!-- src/app/features/canvas/components/context-menu/context-menu.component.html -->
+<div 
+  class="context-menu"
+  [style.left.px]="x"
+  [style.top.px]="y">
+  
+  <div class="context-menu-items">
+    <ng-container *ngFor="let item of menuItems">
+      <button 
+        hlmBtn 
+        variant="ghost"
+        class="context-menu-item"
+        [disabled]="item.disabled"
+        (click)="onMenuItemClick(item.action)">
+        <hlm-icon [name]="item.icon" size="sm" class="menu-item-icon"></hlm-icon>
+        <span class="menu-item-label">{{ item.label }}</span>
+      </button>
+      
+      <div hlmSeparator *ngIf="item.separator"></div>
+    </ng-container>
+  </div>
+</div>

@@ -1,35 +1,40 @@
-<div class="canvas-container">
-    <div class="toolbar">
-      <button (click)="addCard()">Adicionar Card</button>
-      <button (click)="toggleDrawingMode()">{{ drawingMode ? 'Desativar Desenho' : 'Ativar Desenho' }}</button>
-      <button (click)="clearCanvas()">Limpar Tudo</button>
-    </div>
-    
-    <div class="canvas" 
-         (mousedown)="startInteraction($event)"
-         (mousemove)="handleInteraction($event)"
-         (mouseup)="endInteraction($event)"
-         (mouseleave)="endInteraction($event)">
-      <div *ngFor="let card of cards" 
-           class="card" 
-           [style.left.px]="card.x" 
-           [style.top.px]="card.y"
-           [style.width.px]="card.width"
-           [style.height.px]="card.height"
-           [style.backgroundColor]="card.color">
-        <div class="card-header" (mousedown)="startDragging($event, card)">
-          Card {{ card.id }}
-          <button class="delete-btn" (click)="removeCard(card.id)">×</button>
-        </div>
-        <div class="card-content" [contentEditable]="true"></div>
-      </div>
+<!-- src/app/features/canvas/view/view.component.html -->
+<div class="canvas-page">
+  <!-- Main toolbar - fixing the binding issues -->
+  <app-canvas-toolbar
+    [currentZoom]="zoomLevel"
+    (zoomChange)="setZoom($event)"
+    (undoAction)="undo()"
+    (redoAction)="redo()"
+    (clearAction)="clearCanvas()"
+    (exportAction)="exportCanvas()">
+  </app-canvas-toolbar>
+  
+  <div class="canvas-workspace">
+    <!-- Sidebar for layers -->
+    <app-canvas-sidebar></app-canvas-sidebar>
+    <!-- Canvas container - fixing the toolService access -->
+    <div 
+      #canvasContainer
+      class="canvas-container"
+      (click)="handleCanvasClick($event)"
+      >
       
-      <svg class="drawing-layer" *ngIf="drawingPaths.length > 0">
-        <path *ngFor="let path of drawingPaths" 
-              [attr.d]="path" 
-              stroke="black" 
-              stroke-width="2" 
-              fill="none"/>
-      </svg>
+      <canvas
+        #canvas
+        class="canvas"
+        [width]="canvasWidth"
+        [height]="canvasHeight">
+      </canvas>
+      
+      <!-- Context menu -->
+      <app-context-menu
+        #contextMenu
+        *ngIf="showContextMenu"
+        [x]="contextMenuX"
+        [y]="contextMenuY"
+        (closed)="onContextMenuClosed()">
+      </app-context-menu>
     </div>
   </div>
+</div>

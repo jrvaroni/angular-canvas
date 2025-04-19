@@ -22,12 +22,18 @@
     <!-- <top-menu class="px-2 lg:px-4" /> -->
     <div class="border-border bg-background border-t">
         <div class="grid grid-cols-2 lg:grid-cols-5">
-            <side-menu />
-            <div class="col-span-3 lg:col-span-4">
+            <side-menu [isCanvas]="isCanvasRoute" />
+            <div 
+                [class.lg:col-span-4]="!isCanvasRoute" 
+                [class.lg:col-span-5]="isCanvasRoute"
+                [class.ml-[57px]]="isCanvasRoute"
+                [class.lg:w-[calc(100%-57px)]]="isCanvasRoute"
+                 class="col-span-3">
                 <router-outlet />
             </div>
         </div>
     </div>
+
 </main>
 } @else {
     <main class="main">

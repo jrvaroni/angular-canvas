@@ -1,0 +1,31 @@
+<!-- src/app/features/canvas/components/color-picker/color-picker.component.html -->
+<div class="color-picker">
+    <div class="color-preview-container" (click)="togglePicker()">
+      <div 
+        class="color-preview" 
+        [style.background-color]="color"
+        [class.transparent]="color === 'transparent'">
+      </div>
+    </div>
+    
+    <div class="color-input-container">
+      <input 
+        type="color" 
+        [value]="color === 'transparent' ? '#FFFFFF' : color"
+        [disabled]="color === 'transparent'"
+        (input)="onColorInputChange($event)">
+    </div>
+    
+    <div class="color-palette" *ngIf="isOpen">
+      <div class="palette-grid">
+        <button 
+          *ngFor="let paletteColor of commonColors"
+          class="color-option"
+          [class.selected]="color === paletteColor"
+          [class.transparent]="paletteColor === 'transparent'"
+          [style.background-color]="paletteColor"
+          (click)="selectColor(paletteColor)">
+        </button>
+      </div>
+    </div>
+  </div>
