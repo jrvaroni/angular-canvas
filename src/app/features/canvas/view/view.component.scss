@@ -1,77 +1,43 @@
+/* src/app/features/canvas/view/view.component.scss */
+.canvas-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+.canvas-workspace {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
 .canvas-container {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    width: 100%;
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background-color: #f0f0f0;
+  background-image: 
+    linear-gradient(45deg, #e0e0e0 25%, transparent 25%, transparent 75%, #e0e0e0 75%, #e0e0e0),
+    linear-gradient(45deg, #e0e0e0 25%, transparent 25%, transparent 75%, #e0e0e0 75%, #e0e0e0);
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 10px;
+}
+
+.canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  touch-action: none;
+}
+
+/* Dark mode adjustments */
+:host-context(.dark) {
+  .canvas-container {
+    background-color: #2a2a2a;
+    background-image: 
+      linear-gradient(45deg, #333333 25%, transparent 25%, transparent 75%, #333333 75%, #333333),
+      linear-gradient(45deg, #333333 25%, transparent 25%, transparent 75%, #333333 75%, #333333);
   }
-  
-  .toolbar {
-    padding: 10px;
-    background: #f0f0f0;
-    border-bottom: 1px solid #ddd;
-    display: flex;
-    gap: 10px;
-    
-    button {
-      padding: 5px 10px;
-      cursor: pointer;
-    }
-  }
-  
-  .canvas {
-    flex: 1;
-    position: relative;
-    background-color: #f9f9f9;
-    overflow: hidden;
-    cursor: default;
-    
-    &.drawing-mode {
-      cursor: crosshair;
-    }
-  }
-  
-  .card {
-    position: absolute;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: white;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    cursor: move;
-    
-    .card-header {
-      padding: 8px;
-      background-color: rgba(0, 0, 0, 0.05);
-      border-bottom: 1px solid #eee;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: bold;
-      
-      .delete-btn {
-        border: none;
-        background: none;
-        cursor: pointer;
-        font-size: 16px;
-        color: #999;
-        
-        &:hover {
-          color: #f44336;
-        }
-      }
-    }
-    
-    .card-content {
-      padding: 8px;
-      min-height: calc(100% - 40px);
-      outline: none;
-    }
-  }
-  
-  .drawing-layer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-  }
+}

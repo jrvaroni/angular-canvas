@@ -1,0 +1,165 @@
+<!-- src/app/features/canvas/components/sidebar/sidebar.component.html -->
+<div class="sidebar-container">
+    <div class="sidebar-header">
+      <h3 class="sidebar-title">Layers</h3>
+      
+      <div class="layer-actions">
+        <button 
+          hlmBtn 
+          size="icon" 
+          variant="ghost"
+          (click)="createNewLayer()"
+          aria-label="Add Layer"
+          hlmTooltipTrigger
+          aria-describedby="add-layer">
+          <hlm-icon name="lucideFilePlus" size="sm"></hlm-icon>
+          <span *brnTooltipContent>Add Layer</span>
+        </button>
+        
+        <button 
+          hlmBtn 
+          size="icon" 
+          variant="ghost"
+          [disabled]="selectedLayerIds.length < 2"
+          (click)="groupSelectedLayers()"
+          aria-label="Group Layers"
+          hlmTooltipTrigger
+          aria-describedby="group-layers">
+          <hlm-icon name="lucideFolder" size="sm"></hlm-icon>
+          <span *brnTooltipContent>Group Layers</span>
+        </button>
+      </div>
+    </div>
+    
+    <div hlmSeparator></div>
+    
+    <div class="layers-list-container">
+      <div class="layers-list">
+        <div 
+          *ngFor="let layer of layers" 
+          class="layer-item"
+          [class.selected]="isSelected(layer)"
+          (click)="selectLayer(layer, $event)">
+          
+          <div class="layer-icon-name">
+            <hlm-icon [name]="getLayerTypeIcon(layer.type)" size="sm"></hlm-icon>
+            <span class="layer-name">{{ layer.name }}</span>
+          </div>
+          
+          <div class="layer-controls">
+            <!-- Visibility toggle -->
+            <button 
+              hlmBtn 
+              size="icon" 
+              variant="ghost"
+              class="sm-icon-button"
+              [class.active]="layer.visible"
+              (click)="toggleVisibility(layer, $event)"
+              aria-label="Toggle Visibility"
+              hlmTooltipTrigger
+              aria-describedby="visibility">
+              <hlm-icon [name]="layer.visible ? 'lucideEye' : 'lucideEyeOff'" size="xs"></hlm-icon>
+              <span *brnTooltipContent>{{ layer.visible ? 'Hide Layer' : 'Show Layer' }}</span>
+            </button>
+            
+            <!-- Lock toggle -->
+            <button 
+              hlmBtn 
+              size="icon" 
+              variant="ghost"
+              class="sm-icon-button"
+              [class.active]="layer.locked"
+              (click)="toggleLock(layer, $event)"
+              aria-label="Toggle Lock"
+              hlmTooltipTrigger
+              aria-describedby="lock">
+              <hlm-icon [name]="layer.locked ? 'lucideLock' : 'lucideLockOpen'" size="xs"></hlm-icon>
+              <span *brnTooltipContent>{{ layer.locked ? 'Unlock Layer' : 'Lock Layer' }}</span>
+            </button>
+            
+            <!-- Move layer up -->
+            <button 
+              hlmBtn 
+              size="icon" 
+              variant="ghost"
+              class="sm-icon-button"
+              [disabled]="layer.zIndex === layers.length - 1"
+              (click)="moveLayerUp(layer, $event)"
+              aria-label="Move Up"
+              hlmTooltipTrigger
+              aria-describedby="move-up">
+              <hlm-icon name="lucideChevronUp" size="xs"></hlm-icon>
+              <span *brnTooltipContent>Move Layer Up</span>
+            </button>
+            
+            <!-- Move layer down -->
+            <button 
+              hlmBtn 
+              size="icon" 
+              variant="ghost"
+              class="sm-icon-button"
+              [disabled]="layer.zIndex === 0"
+              (click)="moveLayerDown(layer, $event)"
+              aria-label="Move Down"
+              hlmTooltipTrigger
+              aria-describedby="move-down">
+              <hlm-icon name="lucideChevronDown" size="xs"></hlm-icon>
+              <span *brnTooltipContent>Move Layer Down</span>
+            </button>
+            
+            <!-- Delete layer -->
+            <button 
+              hlmBtn 
+              size="icon" 
+              variant="ghost"
+              class="sm-icon-button"
+              (click)="deleteLayer(layer, $event)"
+              aria-label="Delete Layer"
+              hlmTooltipTrigger
+              aria-describedby="delete-layer">
+              <hlm-icon name="lucideTrash2" size="xs"></hlm-icon>
+              <span *brnTooltipContent>Delete Layer</span>
+            </button>
+          </div>
+          
+          <!-- Layer opacity control (shown on selected layers) -->
+          <div class="layer-opacity-control" *ngIf="isSelected(layer)">
+            <span class="opacity-label">Opacity:</span>
+            <input 
+                type="range" 
+                min="0" 
+                max="100" 
+                [value]="layer.opacity * 100"
+                (input)="onOpacityChange(layer, $any($event.target).value)">
+            <span class="opacity-value">{{ layer.opacity * 100 | number:'1.0-0' }}%</span>
+          </div>
+          
+          <!-- Group layer children (if applicable) -->
+          <div class="group-children" *ngIf="layer.type === LayerType.GROUP && layer.children?.length">
+            <div 
+              *ngFor="let childLayer of layer.children" 
+              class="child-layer-item"
+              [class.selected]="isSelected(childLayer)"
+              (click)="selectLayer(childLayer, $event)">
+              
+              <div class="layer-icon-name">
+                <hlm-icon [name]="getLayerTypeIcon(childLayer.type)" size="xs"></hlm-icon>
+                <span class="layer-name">{{ childLayer.name }}</span>
+              </div>
+            </div>
+            
+            <!-- Ungroup button (only shown for group layers) -->
+            <button 
+              hlmBtn 
+              size="sm" 
+              variant="ghost"
+              class="ungroup-button"
+              (click)="ungroupLayer(layer, $event)">
+              <hlm-icon name="lucideFolderOpen" size="xs" class="mr-1"></hlm-icon>
+              Ungroup
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { provideIcons } from '@ng-icons/core';
 import {
   lucideBox,
@@ -44,6 +44,7 @@ interface ListItem {
 })
 export class SideMusicMenuComponent {
 
+	@Input() isCanvas = false;
 	public menu: ListItem[] = [
 		{ text: 'Home', icon: 'lucideHouse', link: '', selected: true },
 		{ text: 'Clientes', icon: 'lucideUser', link: 'clientes' },
