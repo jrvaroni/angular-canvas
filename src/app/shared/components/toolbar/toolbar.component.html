@@ -1,0 +1,171 @@
+<!-- src/app/features/canvas/components/toolbar/toolbar.component.html -->
+<div class="toolbar-container">
+  <div class="toolbar-section">
+    <!-- Tool selection -->
+    <div class="tool-group">
+      <ng-container *ngFor="let tool of tools">
+        <hlm-tooltip>
+          <button
+            hlmBtn
+            size="icon"
+            variant="ghost"
+            [class.active]="isActiveTool(tool.id)"
+            (click)="setTool(tool.id)"
+            [attr.aria-label]="tool.name"
+            hlmTooltipTrigger
+            [attr.aria-describedby]="tool.name"
+          >
+            <hlm-icon [attr.aria-describedby]="tool.name" [name]="tool.icon" size="sm"></hlm-icon>
+            <span *brnTooltipContent>{{ tool.name }}</span>
+          </button>
+        </hlm-tooltip>
+      </ng-container>
+    </div>
+
+    <div hlmSeparator class="mx-2 h-6" orientation="vertical"></div>
+
+    <!-- History operations -->
+    <div class="tool-group">
+      <hlm-tooltip>
+        <button
+          hlmBtn
+          size="icon"
+          variant="ghost"
+          (click)="undo()"
+          aria-label="Undo"
+          hlmTooltipTrigger
+          aria-describedby="undo"
+        >
+          <hlm-icon aria-describedby="undo" name="lucideUndo2" size="sm"></hlm-icon>
+          <span *brnTooltipContent>Desfazer</span>
+        </button>
+      </hlm-tooltip>
+      <hlm-tooltip>
+        <button
+          hlmBtn
+          size="icon"
+          variant="ghost"
+          (click)="redo()"
+          aria-label="Redo"
+          hlmTooltipTrigger
+          aria-describedby="redo"
+        >
+          <hlm-icon aria-describedby="redo" name="lucideRedo2" size="sm"></hlm-icon>
+          <span *brnTooltipContent>Refazer</span>
+        </button>
+      </hlm-tooltip>
+    </div>
+
+    <div hlmSeparator class="mx-2 h-6" orientation="vertical"></div>
+
+    <!-- Canvas operations -->
+    <div class="tool-group">
+      <hlm-tooltip>
+        <button
+          hlmBtn
+          size="icon"
+          variant="ghost"
+          (click)="clearCanvas()"
+          aria-label="Clear Canvas"
+          hlmTooltipTrigger
+          aria-describedby="clear"
+        >
+          <hlm-icon aria-describedby="clear" name="lucideTrash2" size="sm"></hlm-icon>
+          <span *brnTooltipContent>Limpar Tela</span>
+        </button>
+      </hlm-tooltip>
+      <hlm-tooltip>
+        <button
+          hlmBtn
+          size="icon"
+          variant="ghost"
+          (click)="exportCanvas()"
+          aria-label="Export"
+          hlmTooltipTrigger
+          aria-describedby="export"
+        >
+          <hlm-icon aria-describedby="export" name="lucideDownload" size="sm"></hlm-icon>
+          <span *brnTooltipContent>Exportar Tela</span>
+        </button>
+      </hlm-tooltip>
+    </div>
+  </div>
+
+  <div class="toolbar-section">
+    <!-- Zoom controls -->
+    <div class="zoom-controls">
+      <hlm-tooltip>
+        <button
+          hlmBtn
+          size="icon"
+          variant="ghost"
+          (click)="zoomOut()"
+          aria-label="Zoom Out"
+          hlmTooltipTrigger
+          aria-describedby="zoom-out"
+        >
+          <hlm-icon aria-describedby="zoom-out" name="lucideCircleMinus" size="sm"></hlm-icon>
+          <span *brnTooltipContent>Afastar</span>
+        </button>
+      </hlm-tooltip>
+
+      <select class="zoom-select" [ngModel]="currentZoom" (ngModelChange)="setZoom($event)">
+        <option *ngFor="let zoom of zoomLevels" [value]="zoom">{{ zoom * 100 }}%</option>
+      </select>
+      <hlm-tooltip>
+        <button
+          hlmBtn
+          size="icon"
+          variant="ghost"
+          (click)="zoomIn()"
+          aria-label="Zoom In"
+          hlmTooltipTrigger
+          aria-describedby="zoom-in"
+        >
+          <hlm-icon name="lucideCirclePlus" aria-describedby="zoom-in" size="sm"></hlm-icon>
+          <span *brnTooltipContent>Aproximar</span>
+        </button>
+      </hlm-tooltip>
+      <hlm-tooltip>
+        <button
+          hlmBtn
+          size="icon"
+          variant="ghost"
+          (click)="resetZoom()"
+          aria-label="Reset Zoom"
+          hlmTooltipTrigger
+          aria-describedby="reset-zoom"
+        >
+          <hlm-icon name="lucideMaximize" aria-describedby="reset-zoom" size="sm"></hlm-icon>
+          <span *brnTooltipContent>Redefinir Zoom</span>
+        </button>
+      </hlm-tooltip>
+    </div>
+
+    <div hlmSeparator class="mx-2 h-6" orientation="vertical"></div>
+
+    <!-- Tool properties and diagram toggle -->
+    <div class="tool-group">
+      <hlm-tooltip>
+        <button
+          hlmBtn
+          size="icon"
+          variant="ghost"
+          [class.active]="showProperties"
+          (click)="toggleProperties()"
+          aria-label="Properties"
+          hlmTooltipTrigger
+          aria-describedby="properties"
+        >
+          <hlm-icon name="lucideSettings" aria-describedby="properties" size="sm"></hlm-icon>
+          <span *brnTooltipContent>Propriedades da ferramenta</span>
+        </button>
+      </hlm-tooltip>
+    </div>
+  </div>
+</div>
+
+<!-- Tool properties panel -->
+<div class="tool-properties" *ngIf="showProperties">
+  <app-tool-properties [tool]="activeTool"></app-tool-properties>
+</div>

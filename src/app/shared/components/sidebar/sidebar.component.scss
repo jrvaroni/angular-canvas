@@ -1,0 +1,108 @@
+// sidebar.component.scss
+.sidebar {
+  width: 280px;
+  height: 100%;
+  border-right: 1px solid var(--border);
+  background-color: var(--background);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.sidebar-header {
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sidebar-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+}
+
+.empty-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  color: var(--muted-foreground);
+  font-size: 14px;
+}
+
+.layers-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.layer-item {
+  border-radius: 4px;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background-color: var(--muted);
+  }
+  
+  &.selected {
+    border-color: var(--border);
+    background-color: var(--muted);
+  }
+}
+
+.layer-content {
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.layer-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.layer-name {
+  flex: 1;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.layer-actions {
+  display: flex;
+  gap: 2px;
+}
+
+.action-button {
+  padding: 2px;
+  height: 24px;
+  width: 24px;
+  
+  &:hover {
+    background-color: var(--accent);
+  }
+}
+
+.layer-expanded {
+  padding: 8px;
+  border-top: 1px solid var(--border);
+  background-color: var(--card);
+}
+
+.opacity-control {
+  margin-bottom: 8px;
+}
+
+.extra-actions {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 4px;
+}

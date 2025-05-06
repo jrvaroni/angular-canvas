@@ -1,0 +1,69 @@
+<div class="canvas-page">
+  <!-- app-canvas-toolbar no view.component.html -->
+  <app-canvas-toolbar
+    [currentZoom]="zoomLevel()"
+    [isConnecting]="isCreatingConnection()"
+    [connectionSourceId]="connectionSourceId()"
+    (zoomChange)="setZoom($event)"
+    (undoAction)="undo()"
+    (redoAction)="redo()"
+    (clearAction)="clearCanvas()"
+    (exportAction)="exportCanvas()"
+  >
+  </app-canvas-toolbar>
+
+  <div class="canvas-workspace">
+    <!-- Sidebar for layers -->
+    <app-canvas-sidebar></app-canvas-sidebar>
+
+    <!-- Canvas container -->
+    <div
+      #canvasContainer
+      class="canvas-container"
+      [class.cursor-select]="canvasService.currentTool() === 'select'"
+      [class.cursor-pan]="canvasService.currentTool() === 'pan'"
+      [class.cursor-pen]="canvasService.currentTool() === 'pen'"
+      [class.cursor-rectangle]="canvasService.currentTool() === 'rectangle'"
+      [class.cursor-ellipse]="canvasService.currentTool() === 'ellipse'"
+      [class.cursor-text]="canvasService.currentTool() === 'text'"
+      [class.cursor-eraser]="canvasService.currentTool() === 'eraser'"
+      [class.cursor-diagram]="canvasService.currentTool() === 'diagram'"
+      [class.cursor-pan-active]="isPanning()"
+      (click)="handleCanvasClick($event)"
+      (mousedown)="onMouseDown($event)"
+      (mousemove)="onMouseMove($event)"
+      (mouseup)="onMouseUp($event)"
+      (mouseleave)="onMouseLeave()"
+      (wheel)="onWheel($event)"
+      (contextmenu)="onContextMenu($event)"
+    >
+      <canvas #canvas class="canvas" [width]="canvasWidth()" [height]="canvasHeight()"> </canvas>
+
+      <!-- Context menu -->
+      <app-context-menu
+        #contextMenu
+        *ngIf="showContextMenu()"
+        [x]="contextMenuX()"
+        [y]="contextMenuY()"
+        (closed)="onContextMenuClosed()"
+        (actionExecuted)="handleContextMenuAction($event)"
+      >
+      </app-context-menu>
+
+      <!-- Text editor (visible only when editing text) -->
+      <app-text-editor
+        *ngIf="showTextEditor()"
+        [layerId]="textEditorLayerId()"
+        [position]="textEditorPosition()"
+        [width]="textEditorWidth()"
+        [height]="textEditorHeight()"
+        [text]="textEditorText()"
+        [fontSize]="textEditorFontSize()"
+        [fontFamily]="textEditorFontFamily()"
+        [color]="textEditorColor()"
+        [align]="textEditorAlign()"
+        (close)="closeTextEditor($event)"
+      ></app-text-editor>
+    </div>
+  </div>
+</div>

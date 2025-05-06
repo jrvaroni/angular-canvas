@@ -1,0 +1,189 @@
+<!-- src/app/features/canvas/components/tool-properties/tool-properties.component.html -->
+<div class="tool-properties-container">
+  <h3 class="tool-properties-title">Propriedades: {{ tool | toolName }}</h3>
+
+  <!-- Different properties per tool type -->
+
+  <!-- Drawing tools (Pen, Line, etc.) -->
+  <ng-container *ngIf="tool === Tool.PEN || tool === Tool.LINE || tool === Tool.ERASER">
+    <!-- Stroke color (except for eraser) -->
+    <div class="property-row" *ngIf="tool !== Tool.ERASER">
+      <label hlmLabel>Stroke</label>
+      <app-color-picker [color]="options?.strokeColor || '#000000'" (colorChange)="onStrokeColorChange($event)">
+      </app-color-picker>
+    </div>
+
+    <!-- Stroke width -->
+    <div class="property-row">
+      <label hlmLabel>Largura {{ tool === Tool.ERASER ? 'Borracha' : 'Stroke' }}</label>
+      <div class="input-with-value">
+        <input
+          type="range"
+          min="1"
+          max="50"
+          [value]="options?.strokeWidth || 2"
+          (input)="onStrokeWidthChange($event)"
+        />
+        <span class="value-display">{{ options?.strokeWidth || 2 }}px</span>
+      </div>
+    </div>
+
+    <!-- Arrow options for line -->
+    <ng-container *ngIf="tool === Tool.LINE">
+      <div class="property-row">
+        <label hlmLabel>Setas</label>
+        <div class="checkbox-group">
+          <div class="checkbox-item">
+            <input type="checkbox" id="start-arrow" [checked]="options?.arrowStart" (change)="toggleStartArrow()" />
+            <label for="start-arrow">Inicio</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="end-arrow" [checked]="options?.arrowEnd" (change)="toggleEndArrow()" />
+            <label for="end-arrow">Fim</label>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+
+  <!-- Shape tools (Rectangle, Ellipse, etc.) -->
+  <ng-container *ngIf="tool === Tool.RECTANGLE || tool === Tool.ELLIPSE">
+    <!-- Stroke color -->
+    <div class="property-row">
+      <label hlmLabel>Stroke</label>
+      <app-color-picker [color]="options?.strokeColor || '#000000'" (colorChange)="onStrokeColorChange($event)">
+      </app-color-picker>
+    </div>
+
+    <!-- Fill color -->
+    <div class="property-row">
+      <label hlmLabel>Fill</label>
+      <app-color-picker [color]="options?.fillColor || 'transparent'" (colorChange)="onFillColorChange($event)">
+      </app-color-picker>
+    </div>
+
+    <!-- Stroke width -->
+    <div class="property-row">
+      <label hlmLabel>Stroke</label>
+      <div class="input-with-value">
+        <input
+          type="range"
+          min="1"
+          max="20"
+          [value]="options?.strokeWidth || 2"
+          (input)="onStrokeWidthChange($event)"
+        />
+        <span class="value-display">{{ options?.strokeWidth || 2 }}px</span>
+      </div>
+    </div>
+
+    <!-- Opacity -->
+    <div class="property-row">
+      <label hlmLabel>Opacidade</label>
+      <div class="input-with-value">
+        <input
+          type="range"
+          min="0"
+          max="100"
+          [value]="(options?.opacity || 1) * 100"
+          (input)="onOpacityChange($event)"
+        />
+        <span class="value-display">{{ (options?.opacity || 1) * 100 | number : '1.0-0' }}%</span>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- Text tool -->
+  <ng-container *ngIf="tool === Tool.TEXT">
+    <!-- Text color -->
+    <div class="property-row">
+      <label hlmLabel>Cor do Texto</label>
+      <app-color-picker [color]="options?.strokeColor || '#000000'" (colorChange)="onStrokeColorChange($event)">
+      </app-color-picker>
+    </div>
+
+    <!-- Font size -->
+    <div class="property-row">
+      <label hlmLabel>Tamanho da fonte</label>
+      <div class="input-with-value">
+        <input type="range" min="8" max="72" [value]="options?.fontSize || 16" (input)="onFontSizeChange($event)" />
+        <span class="value-display">{{ options?.fontSize || 16 }}px</span>
+      </div>
+    </div>
+
+    <!-- Font family -->
+    <div class="property-row">
+      <label hlmLabel>Font family</label>
+      <!-- <brn-select class="inline-block" placeholder="Select an option" >
+        <hlm-select-trigger>
+            <hlm-select-value />
+        </hlm-select-trigger>
+        <hlm-select-content class="w-56">
+          <hlm-select-label>Fontes Disponíveis</hlm-select-label>
+          <hlm-option value="Arial">Arial</hlm-option>
+          <hlm-option value="Helvetica">Helvetica</hlm-option>
+          <hlm-option value="Times New Roman">Times New Roman</hlm-option>
+          <hlm-option value="Courier New">Courier New</hlm-option>
+          <hlm-option value="Georgia">Georgia</hlm-option>
+          <hlm-option value="Verdana">Verdana</hlm-option>
+          <hlm-option value="Impact">Impact</hlm-option>
+        </hlm-select-content>
+    </brn-select> -->
+
+      <select hlmInput class="w-full" [value]="options?.fontFamily || 'Arial'" (change)="onFontFamilyChange($event)">
+        <option value="Arial">Arial</option>
+        <option value="Helvetica">Helvetica</option>
+        <option value="Times New Roman">Times New Roman</option>
+        <option value="Courier New">Courier New</option>
+        <option value="Georgia">Georgia</option>
+        <option value="Verdana">Verdana</option>
+        <option value="Impact">Impact</option>
+      </select>
+    </div>
+  </ng-container>
+
+  <!-- Connector tool -->
+  <ng-container *ngIf="tool === Tool.CONNECTOR">
+    <!-- Line color -->
+    <div class="property-row">
+      <label hlmLabel>Cor da linha</label>
+      <app-color-picker [color]="options?.strokeColor || '#000000'" (colorChange)="onStrokeColorChange($event)">
+      </app-color-picker>
+    </div>
+
+    <!-- Line width -->
+    <div class="property-row">
+      <label hlmLabel>Tamanho da linha</label>
+      <div class="input-with-value">
+        <input
+          type="range"
+          min="1"
+          max="10"
+          [value]="options?.strokeWidth || 2"
+          (input)="onStrokeWidthChange($event)"
+        />
+        <span class="value-display">{{ options?.strokeWidth || 2 }}px</span>
+      </div>
+    </div>
+
+    <!-- Arrows -->
+    <div class="property-row">
+      <label hlmLabel>Setas</label>
+      <div class="checkbox-group">
+        <div class="checkbox-item">
+          <input type="checkbox" id="start-arrow-conn" [checked]="options?.arrowStart" (change)="toggleStartArrow()" />
+          <label for="start-arrow-conn">Inicio</label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="end-arrow-conn" [checked]="options?.arrowEnd" (change)="toggleEndArrow()" />
+          <label for="end-arrow-conn">Fim</label>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- Reset options button -->
+  <div hlmSeparator class="my-3"></div>
+
+  <button hlmBtn variant="outline" size="sm" class="w-full" (click)="resetOptions()">Resetar</button>
+</div>

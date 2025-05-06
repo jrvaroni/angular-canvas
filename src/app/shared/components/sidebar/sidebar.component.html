@@ -1,0 +1,179 @@
+<!-- sidebar.component.html -->
+<div class="sidebar">
+  <div class="sidebar-header">
+    <h3 class="text-sm font-medium">Camadas</h3>
+    <div class="flex gap-2">
+      <button 
+        hlmBtn 
+        variant="outline" 
+        size="icon" 
+        (click)="createNewLayer()"
+      >
+        <hlm-icon name="lucideFilePlus" size="sm" />
+      </button>
+      <button 
+        hlmBtn 
+        variant="outline" 
+        size="icon" 
+        [disabled]="selectedLayerIds().length < 2"
+        (click)="groupSelectedLayers()"
+      >
+        <hlm-icon name="lucideFolder" size="sm" />
+      </button>
+    </div>
+  </div>
+  
+  <div class="sidebar-content">
+    <div 
+      *ngIf="layers().length === 0" 
+      class="empty-state"
+    >
+      Nenhuma camada disponível.
+    </div>
+    
+    <div class="layers-list">
+      <div 
+        *ngFor="let layer of layers()" 
+        class="layer-item"
+        [class.selected]="isSelected(layer)"
+        (click)="selectLayer(layer, $event)"
+      >
+        <div class="layer-content">
+          <div class="layer-icon">
+            <hlm-icon [name]="getLayerTypeIcon(layer.type)" size="sm" />
+          </div>
+          <div class="layer-name">
+            {{ layer.name }}
+          </div>
+          <div class="layer-actions">
+            <!-- Visibilidade -->
+            <hlm-tooltip>
+            <button 
+              hlmBtn 
+              variant="ghost" 
+              size="icon" 
+              class="action-button"
+              hlmTooltipTrigger
+              (click)="toggleVisibility(layer, $event)"
+            >
+              <hlm-icon 
+                [name]="layer.visible ? 'lucideEye' : 'lucideEyeOff'" 
+                size="sm" 
+              />
+              <span *brnTooltipContent>{{ layer.visible ? 'Ocultar' : 'Mostrar' }}</span>
+            </button>
+            </hlm-tooltip>
+            <!-- Bloqueio -->
+            <hlm-tooltip>
+            <button 
+              hlmBtn 
+              variant="ghost" 
+              size="icon" 
+              class="action-button"
+              hlmTooltipTrigger
+              (click)="toggleLock(layer, $event)"
+            >
+              <hlm-icon 
+                [name]="layer.locked ? 'lucideLock' : 'lucideLockOpen'" 
+                size="sm" 
+              />
+              <span *brnTooltipContent>{{ layer.locked ? 'Desbloquear' : 'Bloquear' }}</span>
+            </button>
+            </hlm-tooltip>
+          </div>
+        </div>
+        
+        <!-- Menu expandido quando selecionado -->
+        <div *ngIf="isSelected(layer)" class="layer-expanded">
+          <!-- Controle de opacidade -->
+          <div class="opacity-control">
+            <span class="text-xs">Opacidade: {{ layer.opacity * 100 | number:'1.0-0' }}%</span>
+            <input 
+              type="range" 
+              min="0" 
+              max="100" 
+              [value]="layer.opacity * 100" 
+              (input)="onOpacityChange(layer, $any($event.target).value)"
+              class="w-full"
+            />
+          </div>
+          
+          <!-- Ações adicionais -->
+          <div class="extra-actions">
+            <!-- Mover para cima -->
+            <hlm-tooltip>
+            <button 
+              hlmBtn 
+              variant="ghost" 
+              size="icon" 
+              class="action-button"
+              hlmTooltipTrigger
+              (click)="moveLayerUp(layer, $event)"
+            >
+              <hlm-icon name="lucideChevronUp" size="sm" />
+              <span *brnTooltipContent>Mover para cima</span>
+            </button>
+            </hlm-tooltip>
+            <!-- Mover para baixo -->
+            <hlm-tooltip>
+            <button 
+              hlmBtn 
+              variant="ghost" 
+              size="icon" 
+              class="action-button"
+              hlmTooltipTrigger
+              (click)="moveLayerDown(layer, $event)"
+            >
+              <hlm-icon name="lucideChevronDown" size="sm" />
+              <span *brnTooltipContent>Mover para baixo</span>
+            </button>
+            </hlm-tooltip>
+            <!-- Duplicar -->
+            <hlm-tooltip>
+            <button 
+              hlmBtn 
+              variant="ghost" 
+              size="icon" 
+              class="action-button"
+              hlmTooltipTrigger
+              (click)="duplicateLayer(layer, $event)"
+            >
+              <hlm-icon name="lucideCopy" size="sm" />
+              <span *brnTooltipContent>Duplicar</span>
+            </button>
+            </hlm-tooltip>
+            <!-- Desagrupar (apenas para grupos) -->
+            <hlm-tooltip>
+            <button 
+              *ngIf="layer.type === LayerType.GROUP"
+              hlmBtn 
+              variant="ghost" 
+              size="icon" 
+              class="action-button"
+              hlmTooltipTrigger
+              (click)="ungroupLayer(layer, $event)"
+            >
+              <hlm-icon name="lucideFolderOpen" size="sm" />
+              <span *brnTooltipContent>Desagrupar</span>
+            </button>
+            </hlm-tooltip>
+            <!-- Excluir -->
+            <hlm-tooltip>
+            <button 
+              hlmBtn 
+              variant="ghost" 
+              size="icon" 
+              class="action-button text-destructive"
+              hlmTooltipTrigger
+              (click)="deleteLayer(layer, $event)"
+            >
+              <hlm-icon name="lucideTrash2" size="sm" />
+              <span *brnTooltipContent>Excluir</span>
+            </button>
+            </hlm-tooltip>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
