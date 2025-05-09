@@ -1,4 +1,4 @@
 import { Routes } from '@angular/router';
-import { ViewComponent } from './features/canvas/view/view.component';
+import { HomeComponent } from './features/home/home.component';
 
-export const routes: Routes = [{ path: '', pathMatch: 'full', component: ViewComponent }];
+export const routes: Routes = [{ path: '', pathMatch: 'full', component: HomeComponent }];
